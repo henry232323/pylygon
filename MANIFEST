@@ -1,5 +1,10 @@
 LICENSE.txt
 setup.py
-examples\example.py
-pylygon\__init__.py
-pylygon\main.py
+examples/collidepoly.py
+examples/distance.py
+examples/profile.py
+examples/raycast.py
+pylygon/__init__.py
+pylygon/_convexhull.py
+pylygon/_line.py
+pylygon/_polygon.py
