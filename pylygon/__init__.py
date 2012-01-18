@@ -1,4 +1,4 @@
-from ._convexhull import main as convexhull
-from ._line import Main as Line
-from ._polygon import Main as Polygon
+from .convexhull import convexhull
+from .line import Line
+from .polygon import Polygon
 

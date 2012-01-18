@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='pylygon',
-      version='1.2.0rc',
+      version='1.3.0rc',
       author='Chandler Armstrong',
       author_email='omni.armstrong@gmail.com',
       url='http://code.google.com/p/pylygon/',

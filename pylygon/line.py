@@ -18,7 +18,7 @@ from pygame import Rect
 
 
 
-class Main(object):
+class Line(object):
     """line segment object"""
 
 

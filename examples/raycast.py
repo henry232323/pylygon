@@ -7,7 +7,7 @@ raycasting method
 
 from operator import mul
 
-from numpy import array
+from numpy import array, dot
 from pylygon import Polygon
 import pygame
 from pygame import display, draw, event, mouse, Surface
@@ -15,10 +15,12 @@ from pygame.locals import *
 
 
 
+from numpy import seterr
+seterr(divide='raise')
+
+
 
 _prod = lambda X: reduce(mul, X)                        # product
-_dot = lambda p, q: sum(_prod(X) for X in zip(p, q))    # dot product
-
 
 
 
@@ -34,16 +36,20 @@ if __name__ == '__main__':
     triangle.move_ip(200, 200)
     rhombus.move_ip(300, 300)
 
-    r = mouse.get_rel()
-    grab, other = None, None
+    grab, other, theta = None, None, 0
     while 1:
         SCREEN.fill((0, 0, 0))
         draw.polygon(SCREEN, (255, 0, 0), triangle.P, 1)
         draw.polygon(SCREEN, (0, 0, 255), rhombus.P, 1)
-        mouse_pos = mouse.get_pos()
+        mouse_pos = array(mouse.get_pos())
         for ev in event.get():
             if ev.type == KEYDOWN:
                 if ev.key == K_q: exit()
+                if ev.key == K_LEFT: theta = -0.01
+                if ev.key == K_RIGHT: theta = 0.01
+            if ev.type == KEYUP:
+                if ev.key == K_LEFT: theta = 0
+                if ev.key == K_RIGHT: theta = 0
             if ev.type == MOUSEBUTTONDOWN:
                 if grab: grab, other = None, None
                 elif rhombus.collidepoint(mouse_pos):
@@ -63,30 +69,31 @@ if __name__ == '__main__':
         draw.line(SCREEN, (255, 0, 0), (X_triangle[0], 2), (X_triangle[1], 2), 2)
         draw.line(SCREEN, (0, 0, 255), (X_rhombus[0], 7), (X_rhombus[1], 7), 2)
 
-        draw.circle(SCREEN, (255, 255, 255), triangle.C, 3)
-        draw.circle(SCREEN, (255, 255, 255), rhombus.C, 3)
+        draw.circle(SCREEN, (255, 255, 255), triangle.C.astype(int), 3)
+        draw.circle(SCREEN, (255, 255, 255), rhombus.C.astype(int), 3)
 
         # NOTES on GJK:
         # ray r provided to the raycast algorithm must be towards the origin
         #   with respect to the movement direction; that is -r
-        r = array(mouse.get_rel())
         if grab:
-            results = grab.raycast(other, -r)
+            r = grab.C - mouse_pos # r is neg what mouse.get_rel() should return
+            results = grab.raycast(other, r, self_theta = theta)
             if results:
                 # if the objects are already intersecting, the results will be
                 # zeros for everything.
                 if results[0] == 0:
+                    print results
                     # use the hit normal to ensure the object is moving away
                     # from the intersection
-                    if _dot(r, n) < 0: grab.C = mouse_pos # aka dot(-r, n) > 0
-                    else: mouse.set_pos(grab.C)
+                    if dot(r, n) > 0: grab.move_ip(*-r)
+                    else: mouse.set_pos(grab.C.astype(int))
                 else:
                     lambda_, q, n = results
-                    q = -q
-                    grab.move_ip(*q)
-                    mouse.set_pos(grab.C)
-                # setting mouse pos requires reseting mouse relative movement
-                mouse.get_rel()
-            else: grab.C = mouse_pos
+                    grab.move_ip(*-q)
+                    grab.rotate_ip(lambda_ * theta)
+                    mouse.set_pos(grab.C.astype(int))
+            else:
+                grab.move_ip(*-r)
+                grab.rotate_ip(theta)
 
         display.update()
