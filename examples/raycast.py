@@ -82,16 +82,13 @@ if __name__ == '__main__':
                 # if the objects are already intersecting, the results will be
                 # zeros for everything.
                 if results[0] == 0:
-                    print results
                     # use the hit normal to ensure the object is moving away
                     # from the intersection
                     if dot(r, n) > 0: grab.move_ip(*-r)
-                    else: mouse.set_pos(grab.C.astype(int))
                 else:
                     lambda_, q, n = results
                     grab.move_ip(*-q)
                     grab.rotate_ip(lambda_ * theta)
-                    mouse.set_pos(grab.C.astype(int))
             else:
                 grab.move_ip(*-r)
                 grab.rotate_ip(theta)
