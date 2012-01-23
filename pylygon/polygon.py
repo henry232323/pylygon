@@ -17,7 +17,7 @@ from operator import mul
 from numpy import array, cos, dot, fabs, lexsort, pi, sin, sqrt, vstack
 from pygame import Rect
 
-from ._convexhull import main as convexhull
+from .convexhull import convexhull
 
 
 
@@ -129,7 +129,7 @@ class _Support(object):
                     if not i in inside:
                         p = P[i]
                         self.M = [self.M[I[i]]]
-                        return p
+                        return p - q
                     i = (i + 1) % n
                 continue
 
@@ -402,7 +402,7 @@ class Polygon(object):
         w = p - q
         while dot(v, v) > _E * max(dot(p - q, p - q) for p in support):
             if dot(v, w) > 0:
-                if (dot(v, r) <= 0) and (dot(v, v) > L): return False
+                if (dot(v, r) <= 0) and (dot(w, w) >  (L * L)): return False
                 n = -v
                 # update lambda
                 # translation distance lower bound := dot(v, w) / dot(v, r)
