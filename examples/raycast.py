@@ -84,7 +84,9 @@ if __name__ == '__main__':
                 if results[0] == 0:
                     # use the hit normal to ensure the object is moving away
                     # from the intersection
-                    if dot(r, n) > 0: grab.move_ip(*-r)
+                    if dot(r, n) > 0:
+                        grab.move_ip(*-r)
+                        # rotate?
                 else:
                     lambda_, q, n = results
                     grab.move_ip(*-q)

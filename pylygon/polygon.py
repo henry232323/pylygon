@@ -61,6 +61,9 @@ class _Support(object):
         self.M = []
 
 
+    def __repr__(self): return array([m for m in self])
+
+
     def __len__(self): return len(self.M)
 
 
@@ -401,15 +404,22 @@ class Polygon(object):
         p = support.add(-v)      # support returns a v opposite of r
         w = p - q
         while dot(v, v) > _E * max(dot(p - q, p - q) for p in support):
+            print ' ', v, w, dot(v, w)
             if dot(v, w) > 0:
-                if (dot(v, r) <= 0) and (dot(w, w) >  (L * L)): return False
+                print '  ', v, r, dot(v, r), w, dot(w, w), L * L
+                if (dot(v, r) <= 0) and (dot(v, v) >  (L * L)):
+                    print '\n'
+                    return False
                 n = -v
                 # update lambda
                 # translation distance lower bound := dot(v, w) / dot(v, r)
                 # angular rotation distance lower bound := L * (1 - lambda)
                 lambda_change = dot(v, w) / (dot(v, r) + (L * (1 - lambda_)))
                 lambda_ = lambda_ + lambda_change
-                if lambda_ > 1: return False
+                print '   ', lambda_
+                if lambda_ > 1:
+                    print '\n'
+                    return False
                 # interpolate lambda
                 q = s + (lambda_ * r) # translation
                 A.rotate_ip(lambda_change * self_theta) # rotation
@@ -417,6 +427,8 @@ class Polygon(object):
             v = support.v(q) # closest point to q in support points
             p = support.add(-v)
             w = p - q
+            print v, dot(v, v), _E * max(dot(p - q, p - q) for p in support)
+        print '\n'
         return lambda_, q, n
 
 
