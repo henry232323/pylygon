@@ -1,0 +1,1 @@
+a polygon object with rotation and collision detection methods.
