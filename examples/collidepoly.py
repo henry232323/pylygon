@@ -8,6 +8,7 @@ find minimum translation distances using the collidepoly method
 
 from math import ceil, floor
 from operator import mul
+from functools import reduce
 
 from pylygon import Polygon
 import pygame
@@ -37,7 +38,7 @@ if __name__ == '__main__':
     rhombus.move_ip(300, 300)
 
     grab, other = None, None
-    while 1:
+    while True:
         SCREEN.fill((0, 0, 0))
         draw.polygon(SCREEN, (255, 0, 0), triangle.P, 1)
         draw.polygon(SCREEN, (0, 0, 255), rhombus.P, 1)
