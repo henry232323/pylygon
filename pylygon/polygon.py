@@ -28,10 +28,10 @@ _E = _MACHEPS * 10
 
 # utility functions
 _clamp = lambda a, v, b: max(a, min(b, v))              # clamp v between a and b
-_perp = lambda (x, y): array([-y, x])                   # perpendicular
+_perp = lambda x, y: array([-y, x])                   # perpendicular
 _prod = lambda X: reduce(mul, X)                        # product
-_mag = lambda (x, y): sqrt(x * x + y * y)               # magnitude, or length
-_normalize = lambda V: array([i / _mag(V) for i in V])  # normalize a vector
+_mag = lambda x, y: sqrt(x * x + y * y)               # magnitude, or length
+_normalize = lambda V: array([i / _mag(*V) for i in V])  # normalize a vector
 _intersect = lambda A, B: (A[1] > B[0] and B[1] > A[0]) # intersection test
 _unzip = lambda zipped: zip(*zipped)                    # unzip a list of tuples
 
@@ -136,7 +136,7 @@ class _Support(object):
                     i = (i + 1) % n
                 continue
 
-            nprj = dot(p, _perp(edge)) # p projected onto edge normal
+            nprj = dot(p, _perp(*edge)) # p projected onto edge normal
             # perp of CCW edges will always point "outside"
             if nprj > 0: # q is "inside" the edge
                 inside.add(i)
@@ -299,7 +299,7 @@ class Polygon:
         for edge in vstack((self.edges, other.edges)):
             edge = _normalize(edge)
             # the separating axis is the line perpendicular to the edge
-            axis = _perp(edge)
+            axis = _perp(*edge)
             self_projection = self.project(axis)
             other_projection = other.project(axis)
             # if self and other do not intersect on any axis, they do not
