@@ -6,6 +6,7 @@ discrete collision detection using the distance method
 
 
 from operator import mul
+from functools import reduce
 
 from numpy import array
 from pylygon import Polygon
@@ -32,7 +33,7 @@ if __name__ == '__main__':
 
     r = mouse.get_rel()
     grab, other = None, None
-    while 1:
+    while True:
         SCREEN.fill((0, 0, 0))
         draw.polygon(SCREEN, (255, 0, 0), triangle.P, 1)
         draw.polygon(SCREEN, (0, 0, 255), rhombus.P, 1)
