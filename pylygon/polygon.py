@@ -8,10 +8,7 @@
 polygon object
 """
 
-
-
-
-from __future__ import division
+from functools import reduce
 from operator import mul
 
 from numpy import array, cos, dot, fabs, lexsort, pi, sin, sqrt, vstack
@@ -61,13 +58,16 @@ class _Support(object):
         self.M = []
 
 
-    def __repr__(self): return array([m for m in self])
+    def __repr__(self):
+        return array([m for m in self])
 
 
-    def __len__(self): return len(self.M)
+    def __len__(self):
+        return len(self.M)
 
 
-    def __iter__(self): return iter(p - q for p, q in self.M)
+    def __iter__(self):
+        return iter(p - q for p, q in self.M)
 
 
     def _s(self, C):
@@ -140,7 +140,8 @@ class _Support(object):
             # perp of CCW edges will always point "outside"
             if nprj > 0: # q is "inside" the edge
                 inside.add(i)
-                if len(checked) == n: return q # q in C
+                if len(checked) == n:
+                    return q # q in C
                 i = (i + 1) % n
                 continue
 
@@ -153,7 +154,7 @@ class _Support(object):
 
 
 
-class Polygon(object):
+class Polygon:
     """polygon object"""
 
 
@@ -194,16 +195,20 @@ class Polygon(object):
         self.rmax = sqrt(max(dot(C - p, C - p) for p in P))
 
 
-    def __len__(self): return self.n
+    def __len__(self):
+        return self.n
 
 
-    def __getitem__(self, i): return self.P[i]
+    def __getitem__(self, i): 
+        return self.P[i]
 
     
-    def __iter__(self): return iter(self.P)
+    def __iter__(self): 
+        return iter(self.P)
 
 
-    def __repr__(self): return str(self.P)
+    def __repr__(self): 
+        return str(self.P)
 
 
     def __add__(self, other):
@@ -429,7 +434,7 @@ class Polygon(object):
         P = self.P
         X, Y = P[:, 0], P[:, 1]
         return 0.5 * sum(X[i] * Y[(i + 1) % n] - X[(i + 1) % n] * Y[i]
-                         for i in xrange(n))
+                         for i in range(n))
 
 
     @property
@@ -443,7 +448,7 @@ class Polygon(object):
         if n == 2: return array([X[0] + X[1] / 2, Y[0] + Y[1] / 2])
 
         c_x, c_y = 0, 0
-        for i in xrange(n):
+        for i in range(n):
             a_i = X[i] * Y[(i + 1) % n] - X[(i + 1) % n] * Y[i]
             c_x += (X[i] + X[(i + 1) % n]) * a_i
             c_y += (Y[i] + Y[(i + 1) % n]) * a_i
