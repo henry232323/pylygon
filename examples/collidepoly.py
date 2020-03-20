@@ -65,8 +65,8 @@ if __name__ == '__main__':
         draw.line(SCREEN, (255, 0, 0), (X_triangle[0], 2), (X_triangle[1], 2), 2)
         draw.line(SCREEN, (0, 0, 255), (X_rhombus[0], 7), (X_rhombus[1], 7), 2)
 
-        draw.circle(SCREEN, (255, 255, 255), triangle.C, 3)
-        draw.circle(SCREEN, (255, 255, 255), rhombus.C, 3)
+        draw.circle(SCREEN, (255, 255, 255), triangle.C.astype(int), 3)
+        draw.circle(SCREEN, (255, 255, 255), rhombus.C.astype(int), 3)
 
         if grab:
             olap_axis = grab.collidepoly(other)
