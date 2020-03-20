@@ -26,7 +26,7 @@ def _turn(i, j, k):
     _P = P
     (p_x, p_y), (q_x, q_y), (r_x, r_y) = _P[i], _P[j], _P[k]
     a = (q_x - p_x) * (r_y - p_y) - (r_x - p_x) * (q_y - p_y)
-    return (a>0)-(a<0)
+    return 1 if a > 0 else (-1 if a < = else 0)
 
 
 def _keep_left(hull, r):
