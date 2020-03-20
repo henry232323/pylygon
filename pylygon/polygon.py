@@ -460,7 +460,8 @@ class Polygon:
 
 
     @C.setter
-    def C(self, (x, y)):
+    def C(self, _pt):
+        x, y = _pt
         c_x, c_y = self.C
         x, y = x - c_x, y - c_y
         self.P = array([(p_x + x, p_y + y) for (p_x, p_y) in self.P])
