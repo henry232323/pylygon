@@ -248,7 +248,7 @@ class Polygon:
         self.P = array([(x + p_x, y + p_y) for (p_x, p_y) in self.P])
 
 
-    def collidepoint(self, (x, y)):
+    def collidepoint(self, x, y):
         """
         test if point (x, y) is outside, on the boundary, or inside polygon
         uses raytracing algorithm
