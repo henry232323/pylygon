@@ -79,8 +79,11 @@ class Line(object):
         """return the y-intercept of self"""
         p_x, p_y = self.p
         m = self.m
-        if m != None: return p_y - (m * p_x)
-        else: return None
+        
+        if m != None:
+            return p_y - (m * p_x)
+        else:
+            return None
 
 
     @property
@@ -126,8 +129,10 @@ class Line(object):
                 x = other_px
                 y = (self_m * other_px) + self_b
             return (x, y)
-        elif self_b == other_b: return self # lines are equal
-        else: return None # lines are parallel
+        elif self_b == other_b:
+            return self # lines are equal
+        else:
+            return None # lines are parallel
 
 
     def line_clip(self, rect):
